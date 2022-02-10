@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.pdm.mapper.PdStorageMapper" >
+
+    <resultMap id="BaseResult" type="com.mr.pdm.vo.ProductStorageVO" >
+      <id column="pd_sto_id" property="pdStoId" jdbcType="VARCHAR" />
+      <result column="pd_id" property="pdId" jdbcType="VARCHAR" />
+      <result column="pd_storage" property="pdStorage" jdbcType="INTEGER" />
+    </resultMap>
+
+
+  <sql id="Base_Column_List" >
+   pd_sto_id, pd_id, pd_storage
+  </sql>
+
+   <!-- <select id="findStorage" resultMap="BaseResult" parameterType="java.lang.String" >
+     select  * from pd_storage ps where ps.pd_id=#{pdId}
+    </select>-->
+
+  <select id="findStorage" resultMap="BaseResult" parameterType="java.lang.String" >
+     select  * from pd_storage ps where ps.pd_id=#{pdId}
+    </select>
+
+    <update id="updateByStorage" parameterType="com.mr.pdm.vo.ProductStorageVO" >
+        update pd_storage
+        <set >
+            <if test="pdStoId != null" >
+                pd_sto_id = #{pdStoId,jdbcType=VARCHAR},
+            </if>
+            <if test="pdId != null" >
+                pd_id = #{pdId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="pdStorage != null" >
+                pd_storage = #{pdStorage,jdbcType=INTEGER},
+            </if>
+
+        </set>
+        where pd_id = #{pdId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

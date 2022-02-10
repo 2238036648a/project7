@@ -1,0 +1,31 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+#  dubbo:
+#    application:
+#      name: dubboAdminConsumer
+#    registry:
+#      address: zookeeper://127.0.0.1:2181
+#    consumer:
+#      check: false
+
+        #如果你的Spring容器是懒加载的，或者通过API编程延迟引用服务，请关闭check，
+        #否则服务临时不可用时，会抛出异常，拿到null引用，如果check=false，总是会返回引用，当服务恢复时，能自动连上。
+  application:
+    name: mradmin
+  cloud:
+    config:
+      profile: dev
+      name: mradmin-application
+      label: onone
+      discovery:
+        enabled: true #可否更换configserver端口号
+        service-id: configserver
+#  profiles:
+#    active: dev
+
+
+

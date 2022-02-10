@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.orm.mapper.OrderDetailDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.mr.mr_common.dto.OrderDetailDto" >
+    <id column="od_id" property="odId" jdbcType="VARCHAR" />
+    <result column="om_id" property="omId" jdbcType="VARCHAR" />
+    <result column="od_name" property="odName" jdbcType="VARCHAR" />
+    <result column="od_code" property="odCode" jdbcType="VARCHAR" />
+    <result column="pd_id" property="pdId" jdbcType="VARCHAR" />
+    <result column="od_price" property="odPrice" jdbcType="DECIMAL" />
+    <result column="pd_number" property="pdNumber" jdbcType="TINYINT" />
+    <result column="od_totalprice" property="odTotalprice" jdbcType="DECIMAL" />
+    <result column="od_couponprice" property="odCouponprice" jdbcType="DECIMAL" />
+    <result column="cp_id" property="cpId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    od_id, om_id, od_name, od_code, pd_id, od_price, pd_number, od_totalprice, od_couponprice, 
+    cp_id, create_time, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mr_order_detail
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mr_order_detail
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mr.mr_common.dto.OrderDetailDto" >
+    insert into mr_order_detail (od_id, om_id, od_name, 
+      od_code, pd_id, od_price, 
+      pd_number, od_totalprice, od_couponprice, 
+      cp_id, create_time, user_id
+      )
+    values (#{odId,jdbcType=VARCHAR}, #{omId,jdbcType=VARCHAR}, #{odName,jdbcType=VARCHAR}, 
+      #{odCode,jdbcType=VARCHAR}, #{pdId,jdbcType=VARCHAR}, #{odPrice,jdbcType=DECIMAL}, 
+      #{pdNumber,jdbcType=TINYINT}, #{odTotalprice,jdbcType=DECIMAL}, #{odCouponprice,jdbcType=DECIMAL}, 
+      #{cpId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.mr_common.dto.OrderDetailDto" >
+    insert into mr_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="odId != null" >
+        od_id,
+      </if>
+      <if test="omId != null" >
+        om_id,
+      </if>
+      <if test="odName != null" >
+        od_name,
+      </if>
+      <if test="odCode != null" >
+        od_code,
+      </if>
+      <if test="pdId != null" >
+        pd_id,
+      </if>
+      <if test="odPrice != null" >
+        od_price,
+      </if>
+      <if test="pdNumber != null" >
+        pd_number,
+      </if>
+      <if test="odTotalprice != null" >
+        od_totalprice,
+      </if>
+      <if test="odCouponprice != null" >
+        od_couponprice,
+      </if>
+      <if test="cpId != null" >
+        cp_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="odId != null" >
+        #{odId,jdbcType=VARCHAR},
+      </if>
+      <if test="omId != null" >
+        #{omId,jdbcType=VARCHAR},
+      </if>
+      <if test="odName != null" >
+        #{odName,jdbcType=VARCHAR},
+      </if>
+      <if test="odCode != null" >
+        #{odCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdId != null" >
+        #{pdId,jdbcType=VARCHAR},
+      </if>
+      <if test="odPrice != null" >
+        #{odPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pdNumber != null" >
+        #{pdNumber,jdbcType=TINYINT},
+      </if>
+      <if test="odTotalprice != null" >
+        #{odTotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="odCouponprice != null" >
+        #{odCouponprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cpId != null" >
+        #{cpId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.mr_common.dto.OrderDetailDto" >
+    update mr_order_detail
+    <set >
+      <if test="omId != null" >
+        om_id = #{omId,jdbcType=VARCHAR},
+      </if>
+      <if test="odName != null" >
+        od_name = #{odName,jdbcType=VARCHAR},
+      </if>
+      <if test="odCode != null" >
+        od_code = #{odCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdId != null" >
+        pd_id = #{pdId,jdbcType=VARCHAR},
+      </if>
+      <if test="odPrice != null" >
+        od_price = #{odPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pdNumber != null" >
+        pd_number = #{pdNumber,jdbcType=TINYINT},
+      </if>
+      <if test="odTotalprice != null" >
+        od_totalprice = #{odTotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="odCouponprice != null" >
+        od_couponprice = #{odCouponprice,jdbcType=DECIMAL},
+      </if>
+      <if test="cpId != null" >
+        cp_id = #{cpId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.mr_common.dto.OrderDetailDto" >
+    update mr_order_detail
+    set om_id = #{omId,jdbcType=VARCHAR},
+      od_name = #{odName,jdbcType=VARCHAR},
+      od_code = #{odCode,jdbcType=VARCHAR},
+      pd_id = #{pdId,jdbcType=VARCHAR},
+      od_price = #{odPrice,jdbcType=DECIMAL},
+      pd_number = #{pdNumber,jdbcType=TINYINT},
+      od_totalprice = #{odTotalprice,jdbcType=DECIMAL},
+      od_couponprice = #{odCouponprice,jdbcType=DECIMAL},
+      cp_id = #{cpId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </update>
+</mapper>

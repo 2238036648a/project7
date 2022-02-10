@@ -1,0 +1,27 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+#
+spring:
+  application:
+    name: pdm
+  cloud:
+    config:
+      profile: dev
+      name: pdm-application
+      label: onone
+      discovery:
+        enabled: true #可否更换configserver端口号
+        service-id: configserver
+##  profiles:
+##    active: dev
+#
+##  dubbo:
+##    application:
+##      name: dubboProviderPdm
+##    registry: #注册中心配置，用于配置连接注册中心相关信息
+##      address: zookeeper://127.0.0.1:2181
+##    protocol: #协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受
+##      name: dubbo
+##      port: 20882

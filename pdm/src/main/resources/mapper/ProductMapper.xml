@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.pdm.mapper.ProductMapper" >
+
+    <resultMap id="proTypeMapper" type="com.mr.pdm.vo.ProductTypeVO" >
+      <id column="pd_type_id" property="pdTypeId" jdbcType="VARCHAR" />
+      <result column="pd_type_name" property="pdTypeName" jdbcType="VARCHAR" />
+      <result column="pd_type_code" property="pdTypeCode" jdbcType="VARCHAR" />
+      <result column="pd_storage" property="pdStorage" jdbcType="INTEGER" />
+
+
+     <collection property="productSet" column="pd_type_id" ofType="java.util.Set"
+          select="com.mr.pdm.mapper.ProductMapper.findProductList">
+     </collection>
+
+    </resultMap>
+
+  <resultMap id="proMapper" type="com.mr.pdm.vo.ProductVO" >
+    <id column="pd_id" property="pdId" jdbcType="VARCHAR" />
+    <result column="pd_name" property="pdName" jdbcType="VARCHAR" />
+    <result column="pd_code" property="pdCode" jdbcType="VARCHAR" />
+    <result column="pd_pic_url" property="pdPicUrl" jdbcType="VARCHAR" />
+    <result column="pd_price" property="pdPrice" jdbcType="DECIMAL" />
+    <result column="pd_status" property="pdStatus" jdbcType="BIT" />
+    <result column="pd_type_id" property="pdTypeId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="pd_storage" property="pdStorage" jdbcType="INTEGER" />
+  </resultMap>
+
+   <resultMap id="proMapperSql" type="com.mr.pdm.vo.ProductVO" >
+      <id column="pd_id" property="pdId" jdbcType="VARCHAR" />
+      <result column="pd_name" property="pdName" jdbcType="VARCHAR" />
+      <result column="pd_code" property="pdCode" jdbcType="VARCHAR" />
+      <result column="pd_pic_url" property="pdPicUrl" jdbcType="VARCHAR" />
+      <result column="pd_price" property="pdPrice" jdbcType="DECIMAL" />
+      <result column="pd_status" property="pdStatus" jdbcType="BIT" />
+      <result column="create_time" property="createTime" jdbcType="DATE" />
+      <result column="pd_type_id" property="pdTypeId" jdbcType="VARCHAR" />
+      <result column="pd_type_name" property="pdTypeName" jdbcType="VARCHAR" />
+     <result column="pd_storage" property="pdStorage" jdbcType="INTEGER" />
+    </resultMap>
+
+
+ <sql id="Base_Column_List" >
+    pd_id, pd_name, pd_code, pd_pic_url, pd_price, pd_status, pd_type_id, create_time
+  </sql>
+
+  <select id="findProductTypeList" resultMap="proTypeMapper">
+  select  * from mr_product_type
+
+</select>
+
+<select id="findProductList" resultMap="proMapper" parameterType="java.lang.String" >
+  select * from mr_product p  where p.pd_type_id = ${pdTypeId} and p.pd_status = 0 ;
+  </select>
+
+
+<select id="findProductTypeListSql" resultMap="proMapperSql">
+  select  p.*,pt.pd_type_name from mr_product pleft join mr_product_type pt  on p.pd_type_id = pt.pd_type_id order by p.pd_type_id desc ;
+</select>
+
+
+
+  <select id="findProductById" resultMap="proMapperSql" parameterType="java.lang.String" >
+  select  p.*,pt.pd_type_name,ps.pd_storage
+  from mr_product p
+  left join mr_product_type pt  on p.pd_type_id = pt.pd_type_id
+   left join pd_storage ps on p.pd_id = ps.pd_id
+  where p.pd_id=#{pdId}
+</select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mr_product
+    where pd_id = #{pdId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mr.pdm.vo.ProductVO" >
+    insert into mr_product (pd_id, pd_name, pd_code, 
+      pd_pic_url, pd_price, pd_status, 
+      pd_type_id, create_time)
+    values (#{pdId,jdbcType=VARCHAR}, #{pdName,jdbcType=VARCHAR}, #{pdCode,jdbcType=VARCHAR}, 
+      #{pdPicUrl,jdbcType=VARCHAR}, #{pdPrice,jdbcType=DECIMAL}, #{pdStatus,jdbcType=BIT}, 
+      #{pdTypeId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.pdm.vo.ProductVO" >
+    insert into mr_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pdId != null" >
+        pd_id,
+      </if>
+      <if test="pdName != null" >
+        pd_name,
+      </if>
+      <if test="pdCode != null" >
+        pd_code,
+      </if>
+      <if test="pdPicUrl != null" >
+        pd_pic_url,
+      </if>
+      <if test="pdPrice != null" >
+        pd_price,
+      </if>
+      <if test="pdStatus != null" >
+        pd_status,
+      </if>
+      <if test="pdTypeId != null" >
+        pd_type_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pdId != null" >
+        #{pdId,jdbcType=VARCHAR},
+      </if>
+      <if test="pdName != null" >
+        #{pdName,jdbcType=VARCHAR},
+      </if>
+      <if test="pdCode != null" >
+        #{pdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdPicUrl != null" >
+        #{pdPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pdPrice != null" >
+        #{pdPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pdStatus != null" >
+        #{pdStatus,jdbcType=BIT},
+      </if>
+      <if test="pdTypeId != null" >
+        #{pdTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.pdm.vo.ProductVO" >
+    update mr_product
+    <set >
+      <if test="pdName != null" >
+        pd_name = #{pdName,jdbcType=VARCHAR},
+      </if>
+      <if test="pdCode != null" >
+        pd_code = #{pdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pdPicUrl != null" >
+        pd_pic_url = #{pdPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pdPrice != null" >
+        pd_price = #{pdPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pdStatus != null" >
+        pd_status = #{pdStatus,jdbcType=BIT},
+      </if>
+      <if test="pdTypeId != null" >
+        pd_type_id = #{pdTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+    </set>
+    where pd_id = #{pdId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.pdm.vo.ProductVO" >
+    update mr_product
+    set pd_name = #{pdName,jdbcType=VARCHAR},
+      pd_code = #{pdCode,jdbcType=VARCHAR},
+      pd_pic_url = #{pdPicUrl,jdbcType=VARCHAR},
+      pd_price = #{pdPrice,jdbcType=DECIMAL},
+      pd_status = #{pdStatus,jdbcType=BIT},
+      pd_type_id = #{pdTypeId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE}
+    where pd_id = #{pdId,jdbcType=VARCHAR}
+  </update>
+</mapper>

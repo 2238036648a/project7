@@ -1,0 +1,19 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: orm
+  cloud:
+    config:
+      profile: dev
+      name: application-orm
+      label: onone
+      discovery:
+        enabled: true #可否更换configserver端口号
+        service-id: configserver
+#  profiles:
+#    active: dev
+

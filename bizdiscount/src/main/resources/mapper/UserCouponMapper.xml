@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mr.bizdiscount.mapper.UserCouponMapper">
+   <resultMap id="BaseResultMap" type="com.mr.bizdiscount.dto.UserCouponDTO">
+     <id column="uc_id" jdbcType="VARCHAR" property="ucId" />
+     <result column="uc_code" jdbcType="VARCHAR" property="ucCode" />
+     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+     <result column="cp_id" jdbcType="VARCHAR" property="cpId" />
+     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+     <result column="status" jdbcType="TINYINT" property="status" />
+     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+     <result column="create_time" jdbcType="DATE" property="createTime" />
+   </resultMap>
+
+
+   <sql id="Base_Column_List">
+     uc_id, uc_code, pic_url, cp_id, user_id, status, order_id, create_time,
+
+   </sql>
+
+
+ <!--   <delete id="deleteCouponByCpId" parameterType="java.lang.String" >
+    delete from mr_user_coupon
+    where cp_id= #{cpId,jdbcType=VARCHAR}
+  </delete>-->
+
+   <insert id="insertInfo" parameterType="com.mr.bizdiscount.dto.UserCouponDTO">
+     insert into mr_user_coupon (uc_id, uc_code, pic_url,
+       cp_id, user_id, status,
+       order_id, create_time)
+     values
+       (#{ucId,jdbcType=VARCHAR}, #{ucCode,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR},
+       #{cpId,jdbcType=VARCHAR},  #{userId,jdbcType=TINYINT},#{status,jdbcType=TINYINT},
+       #{orderId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE})
+   </insert>
+
+    <update id="updateUserCoupon" parameterType="com.mr.bizdiscount.dto.UserCouponDTO" >
+        update mr_user_coupon uc
+        SET
+        <if test="cpId != null" >
+            uc.`status`=1
+        </if>
+         where uc.cp_id = #{cpId}
+    </update>
+
+    <update id="recoverUserCoupon" parameterType="com.mr.bizdiscount.dto.UserCouponDTO" >
+        update mr_user_coupon uc
+        SET
+        <if test="cpId != null" >
+            uc.`status`=0
+        </if>
+        where uc.cp_id = #{cpId}
+    </update>
+
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.mr.bizdiscount.UserCouponDto.UserCouponDto" >
+        update mr_user_coupon
+        <set >
+            <if test="ucCode != null" >
+                uc_code = #{ucCode,jdbcType=VARCHAR},
+            </if>
+            <if test="picUrl != null" >
+                pic_url = #{picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cpId != null" >
+                cp_id = #{cpId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+        </set>
+        where uc_id = #{ucId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.mr.bizdiscount.UserCouponDto.UserCouponDto" >
+    update mr_user_coupon
+    set uc_code = #{ucCode,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      cp_id = #{cpId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE}
+    where uc_id = #{ucId,jdbcType=VARCHAR}
+  </update>-->
+
+ </mapper>

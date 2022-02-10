@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.bizdiscount.mapper.CouponMapper">
+    <resultMap id="BaseResultMap" type="com.mr.bizdiscount.dto.CouponDto" >
+        <id column="cp_id" property="cpId" jdbcType="VARCHAR" />
+        <result column="cp_name" property="cpName" jdbcType="VARCHAR" />
+        <result column="cp_code" property="cpCode" jdbcType="VARCHAR" />
+        <result column="cp_pic_url" property="cpPicUrl" jdbcType="VARCHAR" />
+        <result column="cp_ahieve" property="cpAhieve" jdbcType="DECIMAL" />
+        <result column="cp_reduce" property="cpReduce" jdbcType="DECIMAL" />
+        <result column="cp_storage" property="cpStorage" jdbcType="TINYINT" />
+        <result column="cp_status" property="cpStatus" jdbcType="BIT" />
+        <result column="cp_type_id" property="cpTypeId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="DATE" />
+        <result column="cp_type_name" property="typeName" jdbcType="VARCHAR" />
+        <result column="cp_type_code" property="typeCode" jdbcType="VARCHAR" />
+        <result column="cp_version" property="cpVersion" jdbcType="TINYINT" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    cp_id, cp_name, cp_code, cp_pic_url, cp_ahieve, cp_reduce, cp_storage, cp_status,
+    cp_type_id, create_time,cp_type_name,cp_type_code,cp_version
+  </sql>
+    <select id="couponlist" resultMap="BaseResultMap">
+        select * from mr_coupon cp left join mr_coupon_type ct on cp.cp_type_id=ct.cp_type_id
+
+    </select>
+
+   <!-- <select id="findListByCondition" parameterType="com.mr.bizdiscount.vo.CouponVO" resultMap="BaseResultMap">
+        select * from mr_coupon cp left join mr_coupon_type ct on cp.cp_type_id=ct.cp_type_id
+       &lt;!&ndash; <if test="cpStatus != null">
+            cp_status = #{cpStatus}
+        </if>
+
+        <if test="cpStorage != null and cpStorage != '' ">
+            cp_storage = #{cpStorage}
+        </if>
+        where cp_id = #{cpId}&ndash;&gt;
+    </select>-->
+
+    <select id="findListByCondition" parameterType="com.mr.bizdiscount.vo.CouponVO" resultMap="BaseResultMap">
+        select * from mr_coupon cp left join mr_coupon_type ct on cp.cp_type_id=ct.cp_type_id
+
+        <where>
+            <if test="cpId!=null and cpId!=''">
+                cp_id = #{cpId,jdbcType=VARCHAR}
+            </if>
+            <if test="cpStatus != null">
+                and cp_status = #{cpStatus}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findListByConditionCpId" parameterType="com.mr.bizdiscount.vo.CouponVO" resultMap="BaseResultMap">
+        select * from mr_coupon cp left join mr_coupon_type ct on cp.cp_type_id=ct.cp_type_id
+
+        <if test="cpStorage != null and cpStorage != '' ">
+            cp_storage = #{cpStorage}
+        </if>
+
+        <if test="cpStatus != null">
+            and cp_status = #{cpStatus}
+        </if>
+        where cp_id = #{cpId}
+    </select>
+
+<!--    <update id="updatecouponInfo" parameterType="com.mr.bizdiscount.vo.CouponVO">-->
+<!--        update mr_coupon-->
+<!--        <if test="cp_status != null" >-->
+<!--            <set>-->
+<!--                cp_status = #{cpStatus,jdbcType=BIT},-->
+<!--            </set>-->
+<!--        </if>-->
+<!--        where cp_id = #{cpId}-->
+<!--    </update>-->
+
+
+    <insert id="insertSelective" parameterType="com.mr.bizdiscount.vo.CouponVO">
+        insert into mr_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cpId != null">
+                cp_id,
+            </if>
+            <if test="cpName != null">
+                cp_name,
+            </if>
+            <if test="cpCode != null">
+                cp_code,
+            </if>
+            <if test="cpPicUrl != null">
+                cp_pic_url,
+            </if>
+            <if test="cpAhieve != null">
+                cp_ahieve,
+            </if>
+            <if test="cpReduce != null">
+                cp_reduce,
+            </if>
+            <if test="cpStorage != null">
+                cp_storage,
+            </if>
+            <if test="cpStatus != null">
+                cp_status,
+            </if>
+            <if test="cpTypeId != null">
+                cp_type_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="cpVersion != null">
+                cp_version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cpId != null">
+                #{cpId,jdbcType=VARCHAR},
+            </if>
+            <if test="cpName != null">
+                #{cpName,jdbcType=VARCHAR},
+            </if>
+            <if test="cpCode != null">
+                #{cpCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cpPicUrl != null">
+                #{cpPicUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cpAhieve != null">
+                #{cpAhieve,jdbcType=DECIMAL},
+            </if>
+            <if test="cpReduce != null">
+                #{cpReduce,jdbcType=DECIMAL},
+            </if>
+            <if test="cpStorage != null">
+                #{cpStorage,jdbcType=TINYINT},
+            </if>
+            <if test="cpStatus != null">
+                #{cpStatus,jdbcType=BIT},
+            </if>
+            <if test="cpTypeId != null">
+                #{cpTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="cpVersion != null">
+                #{cpVersion,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updatecouponInfo" parameterType="com.mr.bizdiscount.dto.CouponDto">
+        update mr_coupon
+        <set>
+            <if test="cpId != null">
+                cp_id = #{cpId,jdbcType=VARCHAR},
+            </if>
+            <if test="cpName != null">
+                cp_name = #{cpName,jdbcType=VARCHAR},
+            </if>
+            <if test="cpCode != null">
+                cp_code = #{cpCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cpPicUrl != null">
+                cp_pic_url = #{cpPicUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cpAhieve != null">
+                cp_ahieve = #{cpAhieve,jdbcType=DECIMAL},
+            </if>
+            <if test="cpReduce != null">
+                cp_reduce = #{cpReduce,jdbcType=DECIMAL},
+            </if>
+            <if test="cpStorage != null">
+                cp_storage = #{cpStorage,jdbcType=TINYINT},
+            </if>
+            <if test="cpStatus != null">
+                cp_status = #{cpStatus,jdbcType=BIT},
+            </if>
+            <if test="cpTypeId != null">
+                cp_type_id = #{cpTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+            <if test="cpVersion != null">
+                cp_version = #{cpVersion,jdbcType=TINYINT},
+            </if>
+        </set>
+        where cp_id = #{cpId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mr.bizdiscount.dto.CouponDto">
+    update mr_coupon
+    set cp_name = #{cpName,jdbcType=VARCHAR},
+      cp_code = #{cpCode,jdbcType=VARCHAR},
+      cp_pic_url = #{cpPicUrl,jdbcType=VARCHAR},
+      cp_ahieve = #{cpAhieve,jdbcType=DECIMAL},
+      cp_reduce = #{cpReduce,jdbcType=DECIMAL},
+      cp_storage = #{cpStorage,jdbcType=TINYINT},
+      cp_status = #{cpStatus,jdbcType=BIT},
+      cp_type_id = #{cpTypeId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      cp_version = #{cpVersion,jdbcType=TINYINT},
+    where cp_id = #{cpId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,27 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 20000
+
+
+spring:
+  application:
+    name: rsm
+  cloud:
+    config:
+      profile: dev
+      name: rsm-application
+      label: onone
+      discovery:
+        enabled: true #可否更换configserver端口号
+        service-id: configserver
+#  profiles:
+#    active: dev
+

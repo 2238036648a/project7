@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mr_admin.mapper.Aaa">
+    <resultMap id="BaseResultMap" type="com.mr.mr_admin.vo.UserCouponVo">
+        <id column="cp_type_id" jdbcType="VARCHAR" property="cpTypeId" />
+        <result column="um_id" jdbcType="VARCHAR" property="umId" />
+
+        <result column="um_account" jdbcType="VARCHAR" property="umAccount" />
+        <result column="um_password" jdbcType="VARCHAR" property="umPassword" />
+        <result column="um_status" jdbcType="INTEGER" property="umStatus" />
+        <result column="cp_id" jdbcType="VARCHAR" property="cpId" />
+        <result column="cp_name" jdbcType="VARCHAR" property="cpName" />
+        <result column="cp_code" jdbcType="VARCHAR" property="cpCode" />
+        <result column="cp_pic_url" jdbcType="VARCHAR" property="cpPicUrl" />
+        <result column="cp_ahieve" jdbcType="DECIMAL" property="cpAhieve" />
+        <result column="cp_reduce" jdbcType="DECIMAL" property="cpReduce" />
+        <result column="cp_storage" jdbcType="TINYINT" property="cpStorage" />
+        <result column="cp_status" jdbcType="BIT" property="cpStatus" />
+        <result column="cp_type_name" jdbcType="VARCHAR" property="cpTypeName" />
+    </resultMap>
+
+
+    <select id="findUser" parameterType="com.mr.mr_admin.vo.UserCouponVo" resultMap="BaseResultMap">
+     select * from mr_user u
+	    left join  mr_user_coupon c on u.um_id = c.user_id
+		inner join mr_coupon p on c.cp_id = p.cp_id
+		inner join mr_coupon_type ct on ct.cp_type_id = p.cp_type_id
+     where  u.um_account = #{umAccount} and c.status = 0;
+  </select>
+</mapper>

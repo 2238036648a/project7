@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mr.mr_admin.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.mr.mr_admin.dto.RoleDto">
+    <id column="rl_id" jdbcType="VARCHAR" property="rlId" />
+    <result column="rl_name" jdbcType="VARCHAR" property="rlName" />
+    <result column="rl_code" jdbcType="VARCHAR" property="rlCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    rl_id, rl_name, rl_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mr_role
+    where rl_id = #{rlId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="findRoleByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    r.*
+    from mr_user u
+    left join mr_user_role ur
+    on u.um_id=ur.um_id
+    left join mr_role r
+    on ur.rl_id = r.rl_id
+    where u.um_account = #{umAccount,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from mr_role
+    where rl_id = #{rlId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mr.mr_admin.dto.RoleDto">
+    insert into mr_role (rl_id, rl_name, rl_code
+      )
+    values (#{rlId,jdbcType=VARCHAR}, #{rlName,jdbcType=VARCHAR}, #{rlCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.mr_admin.dto.RoleDto">
+    insert into mr_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rlId != null">
+        rl_id,
+      </if>
+      <if test="rlName != null">
+        rl_name,
+      </if>
+      <if test="rlCode != null">
+        rl_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rlId != null">
+        #{rlId,jdbcType=VARCHAR},
+      </if>
+      <if test="rlName != null">
+        #{rlName,jdbcType=VARCHAR},
+      </if>
+      <if test="rlCode != null">
+        #{rlCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.mr_admin.dto.RoleDto">
+    update mr_role
+    <set>
+      <if test="rlName != null">
+        rl_name = #{rlName,jdbcType=VARCHAR},
+      </if>
+      <if test="rlCode != null">
+        rl_code = #{rlCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rl_id = #{rlId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.mr_admin.dto.RoleDto">
+    update mr_role
+    set rl_name = #{rlName,jdbcType=VARCHAR},
+      rl_code = #{rlCode,jdbcType=VARCHAR}
+    where rl_id = #{rlId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

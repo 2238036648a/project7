@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mr_admin.mapper.UserAddrDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.mr.mr_admin.dto.UserAddrDto" >
+    <id column="addr_id" property="addrId" jdbcType="VARCHAR" />
+    <result column="um_id" property="umId" jdbcType="VARCHAR" />
+    <result column="sheng_id" property="shengId" jdbcType="INTEGER" />
+    <result column="shi_id" property="shiId" jdbcType="INTEGER" />
+    <result column="xian_id" property="xianId" jdbcType="INTEGER" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="um_telephone" property="umTelephone" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    addr_id, um_id, sheng_id, shi_id, xian_id, street, um_telephone, consignee
+  </sql>
+  <select id="getShengAddr" resultType="java.lang.String">
+    select region_name from china_addr where region_id = #{shengId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getShiAddr" resultType="java.lang.String">
+   select region_name from china_addr where region_id = #{shiId,jdbcType=VARCHAR}
+   </select>
+
+  <select id="getXianAddr" resultType="java.lang.String">
+    select region_name from china_addr where region_id = #{xianId,jdbcType=VARCHAR}
+ </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mr_user_addr
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mr_user_addr
+    where addr_id = #{addrId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mr.mr_admin.dto.UserAddrDto" >
+    insert into mr_user_addr (addr_id, um_id, sheng_id, 
+      shi_id, xian_id, street, 
+      um_telephone, consignee)
+    values (#{addrId,jdbcType=VARCHAR}, #{umId,jdbcType=VARCHAR}, #{shengId,jdbcType=INTEGER}, 
+      #{shiId,jdbcType=INTEGER}, #{xianId,jdbcType=INTEGER}, #{street,jdbcType=VARCHAR}, 
+      #{umTelephone,jdbcType=VARCHAR}, #{consignee,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.mr_admin.dto.UserAddrDto" >
+    insert into mr_user_addr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addrId != null" >
+        addr_id,
+      </if>
+      <if test="umId != null" >
+        um_id,
+      </if>
+      <if test="shengId != null" >
+        sheng_id,
+      </if>
+      <if test="shiId != null" >
+        shi_id,
+      </if>
+      <if test="xianId != null" >
+        xian_id,
+      </if>
+      <if test="street != null" >
+        street,
+      </if>
+      <if test="umTelephone != null" >
+        um_telephone,
+      </if>
+      <if test="consignee != null" >
+        consignee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addrId != null" >
+        #{addrId,jdbcType=VARCHAR},
+      </if>
+      <if test="umId != null" >
+        #{umId,jdbcType=VARCHAR},
+      </if>
+      <if test="shengId != null" >
+        #{shengId,jdbcType=INTEGER},
+      </if>
+      <if test="shiId != null" >
+        #{shiId,jdbcType=INTEGER},
+      </if>
+      <if test="xianId != null" >
+        #{xianId,jdbcType=INTEGER},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="umTelephone != null" >
+        #{umTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null" >
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.mr_admin.dto.UserAddrDto" >
+    update mr_user_addr
+    <set >
+      <if test="umId != null" >
+        um_id = #{umId,jdbcType=VARCHAR},
+      </if>
+      <if test="shengId != null" >
+        sheng_id = #{shengId,jdbcType=INTEGER},
+      </if>
+      <if test="shiId != null" >
+        shi_id = #{shiId,jdbcType=INTEGER},
+      </if>
+      <if test="xianId != null" >
+        xian_id = #{xianId,jdbcType=INTEGER},
+      </if>
+      <if test="street != null" >
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="umTelephone != null" >
+        um_telephone = #{umTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="consignee != null" >
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where addr_id = #{addrId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.mr_admin.dto.UserAddrDto" >
+    update mr_user_addr
+    set um_id = #{umId,jdbcType=VARCHAR},
+      sheng_id = #{shengId,jdbcType=INTEGER},
+      shi_id = #{shiId,jdbcType=INTEGER},
+      xian_id = #{xianId,jdbcType=INTEGER},
+      street = #{street,jdbcType=VARCHAR},
+      um_telephone = #{umTelephone,jdbcType=VARCHAR},
+      consignee = #{consignee,jdbcType=VARCHAR}
+    where addr_id = #{addrId,jdbcType=VARCHAR}
+  </update>
+</mapper>

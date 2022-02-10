@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.orm.mapper.OrderMainDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.mr.mr_common.dto.OrderMainDto" >
+    <id column="om_id" property="omId" jdbcType="VARCHAR" />
+    <result column="om_name" property="omName" jdbcType="VARCHAR" />
+    <result column="om_code" property="omCode" jdbcType="VARCHAR" />
+    <result column="om_address" property="omAddress" jdbcType="VARCHAR" />
+    <result column="om_totalprice" property="omTotalprice" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    om_id, om_name, om_code, om_address, om_totalprice, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mr_order_main
+    where om_id = #{omId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mr_order_main
+    where om_id = #{omId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mr.mr_common.dto.OrderMainDto" >
+    insert into mr_order_main (om_id, om_name, om_code, 
+      om_address, om_totalprice, create_time
+      )
+    values (#{omId,jdbcType=VARCHAR}, #{omName,jdbcType=VARCHAR}, #{omCode,jdbcType=VARCHAR}, 
+      #{omAddress,jdbcType=VARCHAR}, #{omTotalprice,jdbcType=DECIMAL}, #{createTime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.mr_common.dto.OrderMainDto" >
+    insert into mr_order_main
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="omId != null" >
+        om_id,
+      </if>
+      <if test="omName != null" >
+        om_name,
+      </if>
+      <if test="omCode != null" >
+        om_code,
+      </if>
+      <if test="omAddress != null" >
+        om_address,
+      </if>
+      <if test="omTotalprice != null" >
+        om_totalprice,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="omId != null" >
+        #{omId,jdbcType=VARCHAR},
+      </if>
+      <if test="omName != null" >
+        #{omName,jdbcType=VARCHAR},
+      </if>
+      <if test="omCode != null" >
+        #{omCode,jdbcType=VARCHAR},
+      </if>
+      <if test="omAddress != null" >
+        #{omAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="omTotalprice != null" >
+        #{omTotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.mr_common.dto.OrderMainDto" >
+    update mr_order_main
+    <set >
+      <if test="omName != null" >
+        om_name = #{omName,jdbcType=VARCHAR},
+      </if>
+      <if test="omCode != null" >
+        om_code = #{omCode,jdbcType=VARCHAR},
+      </if>
+      <if test="omAddress != null" >
+        om_address = #{omAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="omTotalprice != null" >
+        om_totalprice = #{omTotalprice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+    </set>
+    where om_id = #{omId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.mr_common.dto.OrderMainDto" >
+    update mr_order_main
+    set om_name = #{omName,jdbcType=VARCHAR},
+      om_code = #{omCode,jdbcType=VARCHAR},
+      om_address = #{omAddress,jdbcType=VARCHAR},
+      om_totalprice = #{omTotalprice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=DATE}
+    where om_id = #{omId,jdbcType=VARCHAR}
+  </update>
+</mapper>
